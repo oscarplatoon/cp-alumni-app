@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Home from './components/Home';
 import UserContextProvider from './contexts/UserContext';
 import AppInfoProvider from './contexts/AppInfoContext'
+import UserProfile from './components/userProfile/UserProfile';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <AppInfoProvider>
             <Route exact path='/' component={Home} />
           </AppInfoProvider>
+          <Route exact path='/profile' component={UserProfile} />
         </BrowserRouter>
       </UserContextProvider>
     </div>

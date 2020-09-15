@@ -8,7 +8,16 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id','email',)
+        fields = ('id','first_name', 'last_name', 'email', 'cohort')
+
+    def to_representation(self, instance):
+        user_instance = super().to_representation(instance)
+        if user_instance['cohort']:
+            user_instance['cohort'] = instance.cohort.platoon
+            return user_instance
+        else:
+            user_instance['cohort'] = False
+            return user_instance
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -34,5 +43,5 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('token', 'first_name', 'last_name', 'password', 'email',)
+        fields = ('token', 'first_name', 'last_name', 'password', 'email', 'cohort')
 

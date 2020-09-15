@@ -13,6 +13,11 @@
       "sizes": "192x192"
     },
     {
+      "src": "cp_logo_alumni.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
       "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"

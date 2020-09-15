@@ -3,8 +3,8 @@ import { useHistory } from "react-router-dom";
 
 import { UserContext } from '../contexts/UserContext';
 
-
 import { makeStyles, withTheme } from '@material-ui/core/styles';
+import cp_logo_alumni from '../img/cp_logo_alumni.png'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -16,11 +16,29 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    backgroundColor: '#F26123'
+    display: 'flex',
+    backgroundColor: '#F26123',
+    justifyContent: 'space-between'
+  },
+  navLinks: {
+    color: 'white',
+    textDecoration: 'none',
+    padding: '10px',
+    margin: '5px',
+    borderRadius: '5px',
+    '&:hover': {
+      border: '1px solid white',
+      backgroundColor: 'white',
+      transition: '0.5s',
+      color: '#F26123',
+    }
   },
   menuButton: {
     marginRight: theme.spacing(2),
+  },
+  logoImg: {
+    width: '100%',
+    margin: '5px 0'
   },
   title: {
     flexGrow: 1,
@@ -55,10 +73,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row'
   },
-  logo: {
+  logoLink: {
+    maxWidth: '125px'
+  },
+  profileLink: {
     textDecoration: 'none',
-    color: 'white'
-  }
+    color: 'black'
+  },
+
 }));
 
 const NavBar = (props) => {
@@ -75,23 +97,28 @@ const NavBar = (props) => {
     <div >
       <AppBar position="static" >
         <Toolbar className={classes.root}>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            <a href='/' className={classes.logo}>CP Alumni Network</a>
-          </Typography>
+          <a href='/' className={classes.logoLink}>
+            <img src={cp_logo_alumni} alt="cp_alumni_logo" className={classes.logoImg}/>
+          </a>
+          <div >
+            <Link to='/' className={classes.navLinks}>Home</Link>
+            <Link to='/raffle' className={classes.navLinks}>Raffle</Link>
+            <Link to='/contact' className={classes.navLinks}>Contact</Link>
+            <Link to='/about' className={classes.navLinks}>About</Link>
+          </div>
           {
             !user
             ?
-            <div>
+            <div >
               <Link to="/login" className={classes.login} >Login</Link>
               <Link to="/signup" className={classes.signup} >Signup</Link>
             </div>
             :
             <div className={classes.loginContainer}>
               <div>
-                <AccountCircleIcon fontSize='large' />
+                <a href='/profile' className={classes.profileLink}>
+                  <AccountCircleIcon fontSize='large' />
+                </a>
               </div>
               <div>
                 <Button onClick={handleLogout}>Logout</Button>

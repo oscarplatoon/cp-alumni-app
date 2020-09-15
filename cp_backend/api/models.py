@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Cohort(models.Model):
   platoon = models.CharField(max_length=50)
+  current_cohort = models.BooleanField(default=False)
 
   def __str__(self):
     return f"{self.platoon}"

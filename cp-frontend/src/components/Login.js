@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from './buttons/DefaultButton'
+import DefaultButton from './buttons/DefaultButton'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import UserAPI from '../api/UserAPI'
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '7px'
   },
   buttonContainer: {
-    marginTop: '1.5rem'
+    marginTop: '1rem'
   }
 }));
 
@@ -51,6 +51,7 @@ const Login = (props) => {
     }
     let response = await UserAPI.login(userInfo)
     let data = await response.json()
+    console.log(data)
     dispatch({type: 'LOGIN_USER', data})
     return props.history.push('/')
   }
@@ -84,7 +85,7 @@ const Login = (props) => {
             />
           </div>
           <div className={classes.buttonContainer}>
-            <Button size='large' type='submit' label='LOGIN' />
+            <DefaultButton size='large' type='submit' label='LOGIN' />
           </div>
         </form>
       </div>
