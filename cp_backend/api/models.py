@@ -29,3 +29,22 @@ class UserInfo(models.Model):
   def __str__(self):
     return f"{self.user.first_name} {self.user.last_name} is at {self.current_company}."
 
+
+class Raffle(models.Model):
+  is_active = models.BooleanField(default=False)
+  amount = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+  name = models.CharField(max_length=20)
+
+  def __str__(self):
+    return f"{self.name} is active: {self.is_active}."
+
+class RaffleParticipant(models.Model):
+  raffle = models.ForeignKey(Raffle, on_delete=models.CASCADE, related_name='raffle_participants')
+  email = models.EmailField(max_length=255)
+  name = models.CharField(max_length=100)
+  tickets = models.IntegerField()
+
+  def __str__(self):
+    return f"{self.name}, Tickets: {self.tickets} for {self.raffle.name} raffle"
+
+

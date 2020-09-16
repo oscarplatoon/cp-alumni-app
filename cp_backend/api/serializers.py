@@ -1,7 +1,7 @@
 
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import User, Cohort
+from .models import User, Cohort, Raffle, RaffleParticipant
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -44,4 +44,17 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('token', 'first_name', 'last_name', 'password', 'email', 'cohort')
+
+class RaffleParticipantSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RaffleParticipant
+        fields = ['name', 'tickets']
+
+class RaffleSerializer(serializers.ModelSerializer):
+    raffle_participants = RaffleParticipantSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Raffle
+        fields = ['name', 'amount', 'is_active', 'raffle_participants']
 

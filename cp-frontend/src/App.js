@@ -8,6 +8,7 @@ import Home from './components/Home';
 import UserContextProvider from './contexts/UserContext';
 import AppInfoProvider from './contexts/AppInfoContext'
 import UserProfile from './components/userProfile/UserProfile';
+import RaffleProvider from './contexts/RaffleContext';
 
 
 function App() {
@@ -17,15 +18,17 @@ function App() {
   return (
     <div className="App">
     <UserContextProvider>
-      <BrowserRouter>
-          <NavBar />
-          <Route exact path='/signup' component={Signup} />
-          <Route exact path='/login' component={Login} />
-          <AppInfoProvider>
-            <Route exact path='/' component={Home} />
-          </AppInfoProvider>
-          <Route exact path='/profile' component={UserProfile} />
-        </BrowserRouter>
+      <RaffleProvider>
+        <BrowserRouter>
+            <NavBar />
+            <Route exact path='/signup' component={Signup} />
+            <Route exact path='/login' component={Login} />
+            <AppInfoProvider>
+              <Route exact path='/' component={Home} />
+            </AppInfoProvider>
+            <Route exact path='/profile' component={UserProfile} />
+          </BrowserRouter>
+      </RaffleProvider>
       </UserContextProvider>
     </div>
   );

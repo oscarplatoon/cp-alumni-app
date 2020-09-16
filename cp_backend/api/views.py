@@ -1,11 +1,10 @@
 from django.http import HttpResponseRedirect
-from .models import User, Cohort
+from .models import User, Cohort, Raffle, RaffleParticipant
 from rest_framework import permissions, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken
-
+from .serializers import UserSerializer, UserSerializerWithToken, RaffleSerializer, RaffleParticipantSerializer
 
 @api_view(['GET'])
 def current_user(request):
@@ -37,3 +36,11 @@ class UserList(APIView):
         return Response({'total_users': user_count}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@authentication_classes([])
+@permission_classes([])
+class RaffleList(APIView):
+
+    def get(self, request, format=None):
+        raffle = Raffle.objects.get(is_active=True)
+        serialized_raffle = RaffleSerializer(raffle)
+        return Response(serialized_raffle.data)

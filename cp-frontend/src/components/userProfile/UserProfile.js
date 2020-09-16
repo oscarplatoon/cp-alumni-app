@@ -57,7 +57,7 @@ const UserProfile = (props) => {
                     label="Last Name"
                     variant="outlined"
                     placeholder={user['lastName']}
-                    defaultValue={user['firstName']}
+                    defaultValue={user['lastName']}
                     />
                 <div>
                   <TextField
