@@ -19,7 +19,7 @@ const DefaultButton = (props) => {
   const classes = useStyles();
   return (
     <div>
-      <Button className={classes.button} fullWidth size={props.size} variant="contained" type={props.type} color="primary">
+      <Button className={classes.button} onClick={props.handleClick} fullWidth size={props.size} variant="contained" type={props.type} color="primary">
       {props.label}
     </Button>
     </div>

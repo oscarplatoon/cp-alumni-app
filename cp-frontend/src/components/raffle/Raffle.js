@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { RaffleContext } from '../../contexts/RaffleContext'
 import DefaultButton from '../buttons/DefaultButton'
@@ -9,6 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import CheckoutModal from './CheckoutModal';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: '36px',
-    margin: '0 0 10px 0'
+    margin: '0 0 10px 0',
+    color: '#224A24'
   },
   paper: {
     margin: '0 0 5px 0',
@@ -32,9 +34,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Raffle = (props) => {
-  const { raffle, dispatch } = useContext(RaffleContext)
   const classes = useStyles();
-  console.log(raffle)
+
+  const [openCheckout, setOpenCheckout] = useState(false)
+  const { raffle, dispatch } = useContext(RaffleContext)
+
+  const handleCheckoutDisplay = () => {
+    setOpenCheckout(!openCheckout)
+  }
 
   const displayRaffleParticipants = () => {
     return raffle['raffle_participants'].map((participant, index) => {
@@ -72,8 +79,11 @@ const Raffle = (props) => {
               </TableBody>
             </Table>
           </Paper>
-          <DefaultButton size='large' type='submit' label='BUY'/>
+          <DefaultButton size='large' handleClick={handleCheckoutDisplay} label='buy raffle tickets'/>
         </div>
+      }
+      {
+        openCheckout && <CheckoutModal handleCheckoutDisplay={handleCheckoutDisplay} />
       }
     </div>
   );

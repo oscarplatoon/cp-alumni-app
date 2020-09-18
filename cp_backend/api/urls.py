@@ -6,4 +6,7 @@ urlpatterns = [
     path('users/', views.UserList.as_view()),
     path('get_user_count/', views.UserList.as_view()),
     path('active_raffle/', views.RaffleList.as_view()),
+    path('create-session/', views.create_checkout_session, name='create_checkout_session'),
+    path('checkout/success=true', views.payment_success, name='payment_success'),
+    path('checkout/canceled=true', views.payment_cancel, name='payment_cancel'),
 ]
