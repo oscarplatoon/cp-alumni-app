@@ -90,7 +90,7 @@ const NavBar = (props) => {
 
   const handleLogout = () => {
     localStorage.removeItem('token')
-    dispatch({type: "LOGOUT_USER"})
+    dispatch({ type: "LOGOUT_USER" })
   }
 
   return (
@@ -98,7 +98,7 @@ const NavBar = (props) => {
       <AppBar position="static" >
         <Toolbar className={classes.root}>
           <a href='/' className={classes.logoLink}>
-            <img src={cp_logo_alumni} alt="cp_alumni_logo" className={classes.logoImg}/>
+            <img src={cp_logo_alumni} alt="cp_alumni_logo" className={classes.logoImg} />
           </a>
           <div >
             <Link to='/' className={classes.navLinks}>Home</Link>
@@ -108,22 +108,25 @@ const NavBar = (props) => {
           </div>
           {
             !user
-            ?
-            <div >
-              <Link to="/login" className={classes.login} >Login</Link>
-              <Link to="/signup" className={classes.signup} >Signup</Link>
-            </div>
-            :
-            <div className={classes.loginContainer}>
-              <div>
-                <a href='/profile' className={classes.profileLink}>
-                  <AccountCircleIcon fontSize='large' />
-                </a>
+              ?
+              <div >
+                <Link to="/login" className={classes.login} >Login</Link>
+                <Link to="/signup" className={classes.signup} >Signup</Link>
               </div>
-              <div>
-                <Button onClick={handleLogout}>Logout</Button>
+              :
+              <div className={classes.loginContainer}>
+                <div>
+                  <a href='/profile' className={classes.profileLink}>
+                    <AccountCircleIcon fontSize='large' />
+                  </a>
+                </div>
+                <div>
+                  <Button onClick={handleLogout}>Logout</Button>
+                  {
+                    user.isAdmin && <Link to='/admin' className={classes.navLinks}>Admin</Link>
+                 }
+                </div>
               </div>
-            </div>
           }
         </Toolbar>
       </AppBar>

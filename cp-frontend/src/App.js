@@ -15,13 +15,13 @@ import RaffleProvider from './contexts/RaffleContext';
 function App() {
 
 
-
   return (
     <div className="App">
-    <UserContextProvider>
-      <RaffleProvider>
-        <BrowserRouter>
+      <UserContextProvider>
+        <RaffleProvider>
+          <BrowserRouter>
             <NavBar />
+            <Route exact path='/signup' component={Signup} />
             <Route exact path='/signup' component={Signup} />
             <Route exact path='/login' component={Login} />
             <AppInfoProvider>
@@ -31,7 +31,7 @@ function App() {
             <Route exact path='/raffle/?success=true' component={Raffle} />
             <Route exact path='/raffle' component={Raffle} />
           </BrowserRouter>
-      </RaffleProvider>
+        </RaffleProvider>
       </UserContextProvider>
     </div>
   );

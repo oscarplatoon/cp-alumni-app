@@ -79,9 +79,6 @@ def create_checkout_session(request):
             success_url=YOUR_DOMAIN + '?success=true',
             cancel_url=YOUR_DOMAIN + '?canceled=true',
         )
-        sessions = stripe.checkout.Session.list(limit=3)
-        print(sessions)
-        # print("CHECKOUT SESSION: ", checkout_session)
         response_data = {
             'id': checkout_session.id,
             'customer_email': data['email'],

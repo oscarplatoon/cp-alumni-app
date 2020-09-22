@@ -7,6 +7,7 @@ export const userReducer = (state, action) => {
         firstName: action.data.user.first_name,
         lastName: action.data.user.last_name,
         platoon: action.data.user.cohort,
+        isAdmin: action.data.user.is_staff,
         token: action.data.token,
       }
     case 'TOKEN_USER':
@@ -15,6 +16,7 @@ export const userReducer = (state, action) => {
         id: action.data.id,
         firstName: action.data.first_name,
         lastName: action.data.last_name,
+        isAdmin: action.data.is_staff,
         platoon: action.data.cohort,
       }
     case 'LOGOUT_USER':

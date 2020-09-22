@@ -39,7 +39,7 @@ const UserProfile = (props) => {
     <div>
       {
         user
-        ?
+        &&
 
           <div className={classes.profileContainer}>
             <form className={classes.form} noValidate autoComplete="off">
@@ -70,8 +70,8 @@ const UserProfile = (props) => {
                 </div>
               </form>
             </div>
-        :
-        <CircularProgress />
+        // :
+        // <CircularProgress />
       }
     </div>
   );
