@@ -48,4 +48,5 @@ Please utilize Material-UI Table component to display all the users in the appli
 
 - [Material UI](https://material-ui.com/)
 - [Material UI Tables](https://material-ui.com/components/tables/)
+- [Material UI Switch](https://material-ui.com/components/switches/)
 
