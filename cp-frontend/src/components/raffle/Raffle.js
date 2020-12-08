@@ -14,7 +14,7 @@ import CheckoutModal from './CheckoutModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    boxShadow: '5px 5px 5px 5px lightgrey',
+    // boxShadow: '5px 5px 5px 5px darkgrey',
     padding: 10,
     backgroundColor: '#EDF7ED',
     borderRadius: '10px'
@@ -37,7 +37,7 @@ const Raffle = (props) => {
   const classes = useStyles();
 
   const [openCheckout, setOpenCheckout] = useState(false)
-  const { raffle, dispatch } = useContext(RaffleContext)
+  const { raffle } = useContext(RaffleContext)
 
   const handleCheckoutDisplay = () => {
     setOpenCheckout(!openCheckout)

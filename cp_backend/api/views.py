@@ -3,8 +3,9 @@ from .models import User, Cohort, Raffle, RaffleParticipant
 from rest_framework import permissions, status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
+from django.http import Http404
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken, RaffleSerializer, RaffleParticipantSerializer
+from .serializers import UserSerializer, UserSerializerWithToken, RaffleSerializer, RaffleParticipantSerializer, CohortSerializer, UsersSerializer
 from django.views.decorators.csrf import csrf_exempt
 import stripe
 import json
@@ -18,7 +19,39 @@ def current_user(request):
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def get_total_users_count(request):
+    user_count = User.objects.all()
+    return Response({'total_users': user_count}, status=200)
 
+class UserDetail(APIView):
+
+    def get_object(self, pk):
+        try:
+            return User.objects.get(id=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+    def put(self, request, format=None):
+        user = self.get_object(request.data['id'])
+        if user.cohort != request.data['cohort']:
+            request.data['cohort'] = Cohort.objects.get(platoon=request.data['cohort'])
+        serializer = UserSerializer.update(self, user, request.data)
+        if serializer:
+            return Response({'message':'Successfully updated User Profile'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Retreives all Users from Database
+class AllUsersList(APIView):
+
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, format=None):
+        all_users = User.objects.all()
+        serialized_users = UsersSerializer(all_users).all_users
+        return Response({'all_users': serialized_users}, status=200)
+
+# Creates new user and gets user
 class UserList(APIView):
     """
     Create a new user. It's called 'UserList' because normally we'd have a get
@@ -36,7 +69,17 @@ class UserList(APIView):
 
     def get(self, request, format=None):
         user_count = User.objects.all().count()
-        return Response({'total_users': user_count}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'total_users': user_count}, status=200)
+
+
+@authentication_classes([])
+@permission_classes([])
+class CohortList(APIView):
+
+    def get(self, request, format=None):
+        cohorts = Cohort.objects.all()
+        serialized_cohorts = CohortSerializer(cohorts, many=True)
+        return Response(serialized_cohorts.data)
 
 
 @authentication_classes([])
@@ -49,11 +92,6 @@ class RaffleList(APIView):
         return Response(serialized_raffle.data)
 
 
-# STRIPE
-# publishable key: pk_test_51HS7wnFVM9KnaWOncRfuXOp4GwbVMtj3bNMuB3oMGuzD0Mg2FyknjVx72MdZejdA6blT0sM1011MAsjbkXUTu3XU00aKBxCC2i
-
-# secret key: sk_test_51HS7wnFVM9KnaWOntonzDB9a2iQ4vvVinUNJ8ORmpUmNIGlfLduKuCz3cGqw9Gu7m8KEPuDFptQaQIyyKbuebl9b00RLf2wLQM
-stripe.api_key = 'sk_test_51HS7wnFVM9KnaWOntonzDB9a2iQ4vvVinUNJ8ORmpUmNIGlfLduKuCz3cGqw9Gu7m8KEPuDFptQaQIyyKbuebl9b00RLf2wLQM'
 
 YOUR_DOMAIN = 'http://localhost:3000/raffle/'
 
@@ -85,7 +123,6 @@ def create_checkout_session(request):
             'customer': data['name'],
             'raffle': data['raffle']
         }
-        # print(response_data)
         return JsonResponse(data=response_data, status=200)
     except Exception as e:
         return JsonResponse(data=str(e), status=403)

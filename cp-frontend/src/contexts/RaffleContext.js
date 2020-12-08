@@ -1,4 +1,4 @@
-import React, { createContext, useState, useReducer, useEffect } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { raffleReducer } from '../reducers/RaffleReducer';
 import RaffleAPI from '../api/RaffleAPI'
 

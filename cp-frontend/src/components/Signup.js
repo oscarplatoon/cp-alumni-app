@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { CohortContext } from '../contexts/CohortContext';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Select from 'react-select'
@@ -15,6 +16,8 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     width: '30%',
+    minWidth: '30%',
+    maxWidth: '70%',
     margin: 'auto',
     padding: '10px',
     marginTop: '30px',
@@ -41,115 +44,146 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContainer: {
     marginTop: '1.5rem'
+  },
+  error: {
+    marginBottom: '10px'
   }
 }));
 
-const options = [
-  { value: 'lima', label: 'Lima' },
-  { value: 'mike', label: 'Mike' },
-  { value: 'kilo', label: 'Kilo' },
-  { value: 'juliet', label: 'Juliet' }
-]
+// --- REACT SELECT STYLING
+// const customStyles = {
+//   container: (provided, state) => ({
+//     ...provided,
+//     padding: '5px'
+//   }),
+//   control: (provided, state) => ({
+//     ...provided,
+//     width: '100%',
+//     padding: '10px'
+//   }),
+//   menu: (provided, state) => ({
+//     ...provided,
+//     zIndex: 2
+//   })
+// }
 
 
 const Signup = () => {
   const [signedUp, setSignedUp] = useState(false)
+  const [error, setError] = useState({error: false, message: ''})
+  const { cohorts } = useContext(CohortContext)
   const classes = useStyles();
 
+  const cohortOptions = cohorts => {
+    let options = [];
+    cohorts.map(cohort => {
+      if (cohort.current_cohort) {
+        options.push({'value': cohort.platoon, 'label': `${cohort.platoon.toUpperCase()} (CURRENT)`})
+      } else {
+        options.push({'value': cohort.platoon, 'label': cohort.platoon.toUpperCase()})
+      }
+    })
+    return options
+  }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     let userInfo = {
-       first_name: evt.target.firstName.value,
-       last_name: evt.target.lastName.value,
-       password: evt.target.password.value,
-      //  cohort: evt.target.cohort.value,
-       email: evt.target.email.value
+      first_name: evt.target.firstName.value,
+      last_name: evt.target.lastName.value,
+      password: evt.target.password.value,
+      email: evt.target.email.value
     }
     UserAPI.signupUser(userInfo)
-    .then(res => res.json()
-    ).then(data => setSignedUp(true))
+      .then(res => res.json()
+      ).then(data => {
+        if (Array.isArray(data['cohort'])) {
+          setError({error: true, message: 'There was an error signing up.'})
+        } else {
+          setSignedUp(true)
+        }
+      })
   }
 
 
   return (
     <div style={{ 'textAlign': 'center' }}>
       <div className={classes.container}>
-      {
-        !signedUp
-        ?
-        <form className={classes.form} onSubmit={handleSubmit}>
-          <AccountCircleIcon className={classes.icon} />
-          <div className={classes.title}>Signup</div>
-          <div>
-            <TextField
-              id="outlined-search"
-              label="First Name"
-              variant="outlined"
-              className={classes.name}
-              name='firstName'
-              required
-              />
-              <TextField
-              id="outlined-search"
-              label="Last Name"
-              variant="outlined"
-              className={classes.name}
-              name='lastName'
-              required
-              />
+        {
+          !signedUp
+            ?
+            <form className={classes.form} onSubmit={handleSubmit}>
+              <AccountCircleIcon className={classes.icon} />
+              <div className={classes.title}>Signup</div>
+              {
+                error['error']
+                &&
+                <div className={classes.error}>
+                  <Alert type='error' label='Error' message={error.message} />
+                </div>
+              }
+              <div>
+                <TextField
+                  id="outlined-search"
+                  label="First Name"
+                  variant="outlined"
+                  className={classes.name}
+                  name='firstName'
+                  required
+                />
+                <TextField
+                  id="outlined-search"
+                  label="Last Name"
+                  variant="outlined"
+                  className={classes.name}
+                  name='lastName'
+                  required
+                />
               </div>
               <div>
-              <TextField
-              id="outlined-search"
-              label="Email"
-              type='email'
-              variant="outlined"
-              className={classes.textField}
-              name='email'
-              required
-              />
+                <TextField
+                  id="outlined-search"
+                  label="Email"
+                  type='email'
+                  variant="outlined"
+                  className={classes.textField}
+                  name='email'
+                  required
+                />
               </div>
               <div>
-              <TextField
-              id="outlined-search"
-              label="Password"
-              type='password'
-              variant="outlined"
-              className={classes.textField}
-              name='password'
-              required
-              />
+                <TextField
+                  id="outlined-search"
+                  label="Password"
+                  type='password'
+                  variant="outlined"
+                  className={classes.textField}
+                  name='password'
+                  required
+                />
               </div>
               <div>
-              <TextField
-              id="outlined-search"
-              label="Confirm Password"
-              type='password'
-              variant="outlined"
-              className={classes.textField}
-              name='confirmPassword'
-              required
-            />
-          </div>
-          {/*<div>
-            <Select
-              options={options}
-              style={{ margin: '10px' }}
-              name='cohort'
-            />
-  </div>*/}
-          <div className={classes.buttonContainer}>
-            <Button size='large' type='submit' label='GET STARTED' />
-          </div>
-        </form>
-        :
-        <div>
-        <AccountCircleIcon className={classes.icon} />
-          <div className={classes.title}>Signup</div>
-          <Alert type='success' label='Success' message="You've successfully signed up" />
-        </div>
-      }
+                <TextField
+                  id="outlined-search"
+                  label="Confirm Password"
+                  type='password'
+                  variant="outlined"
+                  className={classes.textField}
+                  name='confirmPassword'
+                  required
+                />
+              </div>
+              <div className={classes.buttonContainer}>
+                <Button size='large' type='submit' label='GET STARTED' />
+              </div>
+            </form>
+            :
+            <div>
+              <AccountCircleIcon className={classes.icon} />
+              <div className={classes.title}>Signup</div>
+              <Alert type='success' label='Success' message="You've successfully signed up" />
+            </div>
+        }
       </div>
     </div>
   );

@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import DefaultButton from './buttons/DefaultButton'
+import DefaultAlert from './alerts/DefaultAlert'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import UserAPI from '../api/UserAPI'
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = (props) => {
   const classes = useStyles();
+  const [error, setError] = useState({'error': false, 'message': null})
   const { dispatch } = useContext(UserContext)
 
   const handleSubmit = async (evt) => {
@@ -49,16 +51,20 @@ const Login = (props) => {
       password: evt.target.password.value,
        email: evt.target.email.value
     }
-    let response = await UserAPI.login(userInfo)
-    let data = await response.json()
+    let data = await UserAPI.login(userInfo)
     console.log(data)
-    dispatch({type: 'LOGIN_USER', data})
-    return props.history.push('/')
+    if (data['non_field_errors']) {
+      setError({'error': true, 'message': 'Invalid email or password.'})
+    } else {
+      dispatch({type: 'LOGIN_USER', data})
+      return props.history.push('/')
+    }
   }
 
   return (
     <div style={{ 'textAlign': 'center' }}>
       <div className={classes.container}>
+        {error['error'] && <DefaultAlert type='error' message={error.message} />}
         <form className={classes.form} onSubmit={handleSubmit}>
           <AccountCircleIcon className={classes.icon} />
           <div className={classes.title}>Login</div>

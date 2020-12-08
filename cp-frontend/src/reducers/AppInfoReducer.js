@@ -3,7 +3,10 @@ export const appInfoReducer = (state, action) => {
     case 'GET_APP_INFO':
       return {
         totalUsers: action.totalUsers,
-        // currentCohort: action.currentCohort
+      }
+    case 'GET_ALL_USERS':
+      return {
+        allUsers: action.allUsers,
       }
     default:
       return state

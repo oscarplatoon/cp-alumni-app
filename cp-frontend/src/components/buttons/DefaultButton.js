@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -15,13 +15,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const DefaultButton = (props) => {
+const DefaultButton = ({handleClick, size, type, label}) => {
   const classes = useStyles();
   return (
     <div>
-      <Button className={classes.button} onClick={props.handleClick} fullWidth size={props.size} variant="contained" type={props.type} color="primary">
-      {props.label}
-    </Button>
+      <Button className={classes.button} onClick={handleClick} fullWidth size={size} variant="contained" type={type} color="primary">
+      {label}
+      </Button>
     </div>
   );
 };

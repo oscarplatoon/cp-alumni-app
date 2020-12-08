@@ -1,4 +1,4 @@
-import React, { createContext, useState, useReducer, useEffect } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { appInfoReducer } from '../reducers/AppInfoReducer';
 import UserAPI from '../api/UserAPI'
 
@@ -14,9 +14,6 @@ const AppInfoProvider = (props) => {
       dispatch({type: 'GET_APP_INFO', totalUsers})
     })
   })
-
-  // useEffect(() => {
-  // }, [info])
 
   return (
     <AppInfoContext.Provider value={{info, dispatch}}>

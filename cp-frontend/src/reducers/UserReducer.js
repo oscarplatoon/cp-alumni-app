@@ -1,5 +1,6 @@
-export const userReducer = (state, action) => {
-  switch(action.type) {
+
+export const userReducer = (state = null, action) => {
+  switch (action.type) {
     case 'LOGIN_USER':
       return {
         id: action.data.user.id,
@@ -8,6 +9,8 @@ export const userReducer = (state, action) => {
         lastName: action.data.user.last_name,
         platoon: action.data.user.cohort,
         isAdmin: action.data.user.is_staff,
+        isVerified: action.data.user.is_verified,
+        currentCompany: action.data.user.current_company,
         token: action.data.token,
       }
     case 'TOKEN_USER':
@@ -17,10 +20,12 @@ export const userReducer = (state, action) => {
         firstName: action.data.first_name,
         lastName: action.data.last_name,
         isAdmin: action.data.is_staff,
+        isVerified: action.data.is_verified,
+        currentCompany: action.data.current_company,
         platoon: action.data.cohort,
       }
     case 'LOGOUT_USER':
-      return undefined
+      return null
     default:
       return state
   }

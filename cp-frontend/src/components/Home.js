@@ -6,11 +6,16 @@ import { AppInfoContext } from '../contexts/AppInfoContext';
 import Alert from './alerts/DefaultAlert'
 import Raffle from './raffle/Raffle'
 import { FormHelperText } from '@material-ui/core';
+import cp_background from '../img/cp_background.jpg'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    backgroundImage: `url(${cp_background})`,
+    width: 'auto',
+    height: '100vh',
+    backgroundSize: '100% 100%'
   },
   alert: {
     width: '300px',
@@ -29,7 +34,8 @@ const Home = (props) => {
   const { info } = useContext(AppInfoContext)
   // const { raffle, dispatch } = useContext(RaffleContext)
   return (
-    <div className={classes.root}>
+    <div >
+      <div className={classes.root}>
       {
         info !== undefined
         ?
@@ -45,10 +51,11 @@ const Home = (props) => {
         ?
         <div>Hello {user.email} </div>
         :
-        <div>Login or Signup</div>
+        <div>This is the home page</div>
       }
       <div className={classes.raffle}>
         <Raffle />
+      </div>
       </div>
     </div>
   );

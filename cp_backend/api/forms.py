@@ -7,4 +7,5 @@ from django.urls import reverse_lazy
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = User
-        fields = ('id','first_name', 'last_name', 'email', 'cohort', 'password')
+        fields = ('id','first_name', 'last_name', 'email', 'password')
+

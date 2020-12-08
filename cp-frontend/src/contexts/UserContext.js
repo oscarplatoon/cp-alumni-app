@@ -1,4 +1,4 @@
-import React, { createContext, useState, useReducer, useEffect } from 'react';
+import React, { createContext, useReducer, useEffect } from 'react';
 import { userReducer } from '../reducers/UserReducer'
 import UserAPI from '../api/UserAPI'
 

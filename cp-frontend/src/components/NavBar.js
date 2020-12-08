@@ -1,17 +1,13 @@
 import React, { useContext } from 'react';
-import { useHistory } from "react-router-dom";
 
 import { UserContext } from '../contexts/UserContext';
 
-import { makeStyles, withTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import cp_logo_alumni from '../img/cp_logo_alumni.png'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
@@ -84,13 +80,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = (props) => {
-  let history = useHistory();
-  const { user, dispatch } = useContext(UserContext)
+  const { user, dispatch } = useContext(UserContext);
   const classes = useStyles();
+  const history = useHistory();
 
   const handleLogout = () => {
     localStorage.removeItem('token')
     dispatch({ type: "LOGOUT_USER" })
+    history.push('/')
   }
 
   return (

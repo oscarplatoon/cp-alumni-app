@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import NavBar from './components/NavBar'
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -10,6 +10,7 @@ import UserContextProvider from './contexts/UserContext';
 import AppInfoProvider from './contexts/AppInfoContext'
 import UserProfile from './components/userProfile/UserProfile';
 import RaffleProvider from './contexts/RaffleContext';
+import CohortProvider from './contexts/CohortContext'
 
 
 function App() {
@@ -21,13 +22,14 @@ function App() {
         <RaffleProvider>
           <BrowserRouter>
             <NavBar />
-            <Route exact path='/signup' component={Signup} />
-            <Route exact path='/signup' component={Signup} />
             <Route exact path='/login' component={Login} />
             <AppInfoProvider>
               <Route exact path='/' component={Home} />
             </AppInfoProvider>
-            <Route exact path='/profile' component={UserProfile} />
+            <CohortProvider>
+              <Route exact path='/profile' component={UserProfile} />
+              <Route exact path='/signup' component={Signup} />
+            </CohortProvider>
             <Route exact path='/raffle/?success=true' component={Raffle} />
             <Route exact path='/raffle' component={Raffle} />
           </BrowserRouter>
