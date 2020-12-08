@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 import stripe
 import json
 
+
 @api_view(['GET'])
 def current_user(request):
     """
@@ -25,6 +26,9 @@ def get_total_users_count(request):
     return Response({'total_users': user_count}, status=200)
 
 class UserDetail(APIView):
+    """
+    Gets individual user and updates the user's information
+    """
 
     def get_object(self, pk):
         try:
@@ -43,6 +47,9 @@ class UserDetail(APIView):
 
 # Retreives all Users from Database
 class AllUsersList(APIView):
+    """
+    Gets a list of all users in the database
+    """
 
     permission_classes = (permissions.AllowAny,)
 
@@ -75,7 +82,9 @@ class UserList(APIView):
 @authentication_classes([])
 @permission_classes([])
 class CohortList(APIView):
-
+    """
+    Gets a list of cohorts
+    """
     def get(self, request, format=None):
         cohorts = Cohort.objects.all()
         serialized_cohorts = CohortSerializer(cohorts, many=True)
@@ -85,7 +94,9 @@ class CohortList(APIView):
 @authentication_classes([])
 @permission_classes([])
 class RaffleList(APIView):
-
+    """
+    Gets a list of Raffles
+    """
     def get(self, request, format=None):
         raffle = Raffle.objects.get(is_active=True)
         serialized_raffle = RaffleSerializer(raffle)

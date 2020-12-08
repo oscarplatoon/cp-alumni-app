@@ -27,6 +27,7 @@ class UsersSerializer(object):
             output['users'].append(user_detail)
         return output
 
+
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -54,8 +55,8 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class UserSerializerWithToken(serializers.ModelSerializer):
 
+class UserSerializerWithToken(serializers.ModelSerializer):
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
 
@@ -81,18 +82,16 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
 
 class CohortSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Cohort
         fields = ['platoon', 'current_cohort']
 
 
-
 class RaffleParticipantSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = RaffleParticipant
         fields = ['name', 'tickets']
+
 
 class RaffleSerializer(serializers.ModelSerializer):
     raffle_participants = RaffleParticipantSerializer(many=True, read_only=True)
