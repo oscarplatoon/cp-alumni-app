@@ -1,5 +1,5 @@
 # Code Platoon Alumni App
-Your working on an existing code base that a bunch of other developers are working in. This is a pretty hard challenge.
+You're working on an existing code base that a bunch of other developers are working in. This is a pretty hard challenge.
 
 ## Application Setup
 -  Fork over repo to personal github
