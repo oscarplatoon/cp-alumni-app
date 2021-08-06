@@ -7,8 +7,9 @@ You're working on an existing code base that a bunch of other developers are wor
 1. `cd` into the `cp_backend` directory (same level as `requirements.txt`)
 2. Install all Python packages (`pip install -r requirements.txt`)
 3. Create a new database called `cp_alumni`
-4. Seed the database `psql cp_alumni < seeds.sql` (this will create all the tables and seed the database with data)
-5. Start the server `python manage.py runserver`
+4. In the `seeds.sql` file, update the every instance of `ALTER TABLE public.api_cohort OWNER TO taprete;` and replace `taprete` with your Mac's name. 
+5. Seed the database `psql cp_alumni < seeds.sql` (this will create all the tables and seed the database with data)
+6. Start the server `python manage.py runserver`
 - **Admin User Credentials**: is `admin@email.com` password `CodePlatoon1@`
 - All users have the password of `CodePlatoon1@`
 
